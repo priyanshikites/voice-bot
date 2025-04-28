@@ -1,0 +1,90 @@
+URL: https://www.ikites.ai/post/the-right-to-early-detection-of-breast-cancer
+
+TEXT:
+The Right to Early Detection of Breast Cancer
+top of page
+The Right to Early Detection of Breast Cancer
+Dipinder Sekhon (Founder, Director)
+Feb 29, 2024
+5 min read
+I will commence this article by presenting some well known facts and metrics. It may appear academic, but I have a perspective to share. So, please stay with me.
+Cancer is the second leading cause of deaths worldwide, with >10 million deaths every year attributed to it. What is more astonishing is that over one-third of all deaths preventable through routine screening, and early detection and treatment. And 70% of these deaths occur in low-to-middle income countries.
+Of all the cancer cases, it is estimated that breast cancer comprises ~11-12% cases globally. Over 2 million new cases of female breast cancer and >675 thousand deaths worldwide are reported every year.
+
+Studies have shown that mammography screening can detect ~85-90% of breast cancers in women without symptoms. The death rate due to breast cancer decreased by 1% per year from 2012 through 2021 due to early detection [4]
+Research and history of patient outcomes prove that Stage 3 (locally advanced) and Stage 4 (metastatic) breast cancer are highly incurable. This comprises ~15-25% of all breast cancer cases.
+Note
+: Stage 3 breast cancer refers to tumors that have spread to nearby lymph nodes or tissues, and in some cases, may involve the chest wall or skin. Stage 4 or metastatic breast cancer occurs when cancer cells have spread to distant organs such as the lungs, liver, bones, or brain.
+
+According to the National Cancer Institute, the average expenditure for medical services for breast cancer treatments is ~$35K/year for initial care and ~$3.5K/year for continuing care in the USA. For reference, the national median household income is ~$75K in the country. These numbers look drastically worse for a household in a third-world nation. For instance in India, the annual income ranges between INR 125K and INR 500K Indian rupees a year. However, breast cancer treatment may range anywhere between INR 85K to INR 600K.
+Let us step back now and see what this means for breast cancer patients.
+Here is my takeaway:
+Regular radiological screenings can drastically improve the early detection of breast cancer.
+Coupled with an increased awareness of breast cancer symptoms, there is a good probability that we can reduce the fatalities associated with the later stages of breast cancer.
+
+Coupled with an increased awareness of breast cancer symptoms, there is a good probability that we can reduce the fatalities associated with the later stages of breast cancer.
+So what is stopping us from ensuring a systemic availability of screening facilities to a high proportion of girls and women across the globe?
+Shockingly, despite ~$1.2 trillion spent on cancer treatment every year, there is still a lack of funding, infrastructure, policies and manpower to make screenings more pervasive and affordable, especially in the developing countries. While the US has an annual total research budget of >$550 million allocated for breast cancer, such is not the case for most Asian,  African and South American countries.
+A typical patient there cannot afford expensive pathology or invasive procedures with long wait periods.
+Furthermore, they do not have the required number of radiologists/pathologists to interpret the test reports.
+
+Furthermore, they do not have the required number of radiologists/pathologists to interpret the test reports.
+To make matters even more dire, the right litigation and governance policies are not yet in place to make even the simplest of the screenings truly accessible to the populace.
+Sounds daunting. Waiting is not an option. But how do we bring about the change?
+The solution lies in changing the parameters that impact the decision making - the two critical ones being (1) cost, and (2) manpower availability. And that can happen via a series of technology innovations and interventions.
+Here is how I believe a change can be brought about.
+We should use
+visual analytics
+to aid the regular means to
+automate
+
+Here is how I believe a change can be brought about.
+We should use
+visual analytics
+to aid the regular means to
+automate
+the detection & diagnosis process in radiology, and to find ways of avoiding the need for specialized equipment or invasive pathology. While histopathological examination of breast tissue specimens provides a definitive diagnosis of breast cancer (including tumor type, grade, hormone receptor status, HER2/neu status, and molecular subtype, etc.), the turnaround time for decision making and treatment tends to be long and often too costly.
+By virtue of this proposed automation, we can end up reducing the average time a radiologist spends on analyzing test reports, and control the involved costs per screening while not needing to train more radiologists. Scientifically, this would involve focusing our automation on finding
+visual biomarkers
+
+visual biomarkers
+that are tell-tale signs of cancer. Once found, the tools can flag the case as positive, needing to be quickly confirmed by the radiologist. Here is why it makes sense:
+Visual biomarkers can also allow radiologists to quickly identify suspicious lesions or abnormalities on mammograms or other breast images such as MRIs or ultrasound images.
+We can combine multiple imaging modalities (e.g., mammography with ultrasound or MRI) to improve the overall diagnostic accuracy (fewer false positives) and a multimodal characterization of breast lesions.
+The tool can provide qualitative insights into the morphology, margins, and enhancement patterns of breast lesions, which can accelerate differential diagnosis.
+Coming Next: Learn more about the technologies and the latest trends in innovation…
+
+Coming Next: Learn more about the technologies and the latest trends in innovation…
+The challenge here is that despite very high sensitivity, breast imaging and visual analysis may miss small or subtle lesions, particularly in dense breast tissue. Also, the assessment today of these reports is subjective and relies on the expertise/experience of radiologists, leading to variability in diagnostic accuracy and interobserver variability. Any tool we use must find a way to address these concerns.
+And what is the solution for that?
+
+And what is the solution for that?
+The answer lies in AI. The power of Machine Learning can really help here. If we were to systemically train our neural networks with the vast amount of cancer imaging data available worldwide, we can certainly enhance our technology to an extent that these risks can be minimized [1][2][3]. This is easier said than done, with patient data privacy being a major concern. However, if policies and systems can be crafted around anonymizing the patient data for the sake of research and pervasive screenings, it will go a long way in making early detection not a privilege for the rich, but a basic right for everyone.
+Want to take this journey with us? At KITES, we are committed to a data-empowered creation & augmentation of systems and processes to foster a new era of healthy living. We strive to predict, prevent, protect & preserve using deep-tech innovations.
+Write to Us
+References
+[1]
+
+Write to Us
+References
+[1]
+Ultra-high resolution, multi-scale, context-aware approach for detection of small cancers on mammography (Authors: Krithika Rangarajan, Aman Gupta, Saptarshi Dasgupta, Uday Marri, Arun Kumar Gupta, Smriti Hari, Subhashis Banerjee & Chetan Arora)
+[
+2
+] Deep Learning to Improve Breast Cancer Detection on Screening Mammography (Authors: Li Shen, Laurie R. Margolies, Joseph H. Rothstein, Eugene Fluder, Russell McBride & Weiva Sieh)
+[
+3
+] A convolutional deep learning model for improving mammographic breast-microcalcification diagnosis (Authors: Daesung Kang, Hye Mi Gweon, Na Lae Eun, Ji Hyun Youk, Jeong-Ah Kim & Eun Ju Son)
+[
+4
+] Cancer Facts & Figures 2024 for USA - Report by
+cancer.org
+Coming Next: We can also extend the visual analytics to pathology and treatment planning, including surgical management, chemotherapy, hormonal therapy, targeted therapy, and radiation therapy. Find out how…
+
+Coming Next: AI can further enable personalized treatment plans for breast cancer patients, tuned to to each individual’s medical/familial history and genetic makeup. AI can even accelerate drug discovery and innovation in the pharmaceutical industry.
+Imagine This
+33 views
+1 like. Post not marked as liked
+1
+bottom of page
+

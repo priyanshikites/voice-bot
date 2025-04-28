@@ -1,0 +1,328 @@
+body {
+  font-family: 'Inter', 'Helvetica Neue', sans-serif;
+  overflow: hidden;
+  background-color: #050505;
+  color: rgb(41, 5, 66);
+}
+
+.gradient-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  background-color: #111827;
+}
+
+.gradient-sphere {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sphere-1 {
+  width: 40vw;
+  height: 40vw;
+  background: linear-gradient(40deg, rgba(255, 0, 128, 0.8), rgba(255, 102, 0, 0.4));
+  top: -10%;
+  left: -10%;
+  animation: float-1 15s ease-in-out infinite alternate;
+}
+
+.sphere-2 {
+  width: 45vw;
+  height: 45vw;
+  background: linear-gradient(240deg, rgba(72, 0, 255, 0.8), rgba(0, 183, 255, 0.4));
+  bottom: -20%;
+  right: -10%;
+  animation: float-2 18s ease-in-out infinite alternate;
+}
+
+.sphere-3 {
+  width: 30vw;
+  height: 30vw;
+  background: linear-gradient(120deg, rgba(133, 89, 255, 0.5), rgba(98, 216, 249, 0.3));
+  top: 60%;
+  left: 20%;
+  animation: float-3 20s ease-in-out infinite alternate;
+}
+
+/* New spheres for enhanced effect */
+.sphere-4 {
+  width: 20vw;
+  height: 20vw;
+  background: linear-gradient(190deg, rgba(255, 0, 230, 0.4), rgba(0, 142, 255, 0.2));
+  top: 30%;
+  right: 20%;
+  animation: float-4 12s ease-in-out infinite alternate;
+}
+
+.sphere-5 {
+  width: 15vw;
+  height: 15vw;
+  background: linear-gradient(310deg, rgba(255, 215, 0, 0.3), rgba(255, 0, 0, 0.2));
+  bottom: 30%;
+  left: 40%;
+  animation: float-5 25s ease-in-out infinite alternate;
+}
+
+@keyframes float-1 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(10%, 10%) scale(1.1); }
+}
+
+@keyframes float-2 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-10%, -5%) scale(1.15); }
+}
+
+@keyframes float-3 {
+  0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+  100% { transform: translate(-5%, 10%) scale(1.05); opacity: 0.6; }
+}
+
+@keyframes float-4 {
+  0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 0.4; }
+  100% { transform: translate(8%, -8%) rotate(15deg) scale(1.15); opacity: 0.7; }
+}
+
+@keyframes float-5 {
+  0% { transform: translate(0, 0) scale(1); opacity: 0.2; }
+  100% { transform: translate(-10%, 12%) scale(1.1); opacity: 0.4; }
+}
+
+/* ===== Interactive Dark Gradient Background ===== */
+.background-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: radial-gradient(circle at center, #1f2937, #111827);
+}
+
+.gradient-layer {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  background: radial-gradient(circle at center, rgba(0, 172, 193, 0.3), transparent 70%),
+              radial-gradient(circle at center, rgba(255, 0, 128, 0.2), transparent 80%);
+  mix-blend-mode: screen;
+  animation: floatGradient 15s ease-in-out infinite alternate;
+  transition: transform 0.5s ease-out;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Particle effect */
+.particles-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+@keyframes floatGradient {
+  0% { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.1) translate(5%, 5%); }
+}
+
+/* Rest of your existing CSS */
+.bot-selection-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  color: rgb(21, 70, 105);
+  padding: 20px;
+  overflow: hidden;
+}
+
+/* Add glow effect to elements when hovered */
+.avatar-container:hover, .bot-profile:hover {
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+}
+
+/* Add more interactive hover effects */
+img:hover {
+  transition: transform 0.3s ease, filter 0.3s ease;
+  filter: brightness(1.1);
+}
+
+.settings-button:hover {
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .sphere-1, .sphere-2, .sphere-3, .sphere-4, .sphere-5 {
+    filter: blur(40px);
+  }
+}
+
+@media (max-width: 600px) {
+  .sphere-1, .sphere-2, .sphere-3, .sphere-4, .sphere-5 {
+    filter: blur(30px);
+  }
+}
+
+/* Content container to overlay on top of waves */
+.content-container {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.selection-header {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.selection-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.selection-header p {
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+.bot-profiles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  max-width: 800px;
+}
+
+.bot-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 130px;
+}
+
+.bot-profile:hover {
+  transform: translateY(-10px);
+}
+
+.avatar-container {
+  width: 110px;
+  height: 110px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 15px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  background-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.bot-profile:hover .avatar-container {
+  border-color: rgba(71, 10, 10, 0.7);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.bot-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.bot-profile:hover .bot-avatar {
+  transform: scale(1.05);
+}
+
+.bot-name {
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.bot-profile:hover .bot-name {
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.selection-footer {
+  margin-top: 60px;
+}
+
+.settings-button {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: rgb(195, 172, 24);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 10px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.settings-button:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .selection-header h1 {
+    font-size: 2rem;
+  }
+  
+  .bot-profiles {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .bot-profiles {
+    gap: 15px;
+  }
+  
+  .bot-profile {
+    width: 100px;
+  }
+  
+  .avatar-container {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .selection-header h1 {
+    font-size: 1.8rem;
+  }
+}

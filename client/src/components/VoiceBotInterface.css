@@ -1,0 +1,285 @@
+.voice-bot-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .voice-bot-header {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    background-color: white;
+    border-bottom: 1px solid #eaecef;
+  }
+  
+  .bot-avatar {
+    font-size: 2.5rem;
+    margin-right: 16px;
+    background-color: #f1f3f5;
+    height: 60px;
+    width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+  
+  .bot-info h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+  
+  .bot-info p {
+    margin: 4px 0 0;
+    color: #6c757d;
+    font-size: 0.875rem;
+  }
+  
+  .voice-bot-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .message {
+    max-width: 80%;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    border-radius: 18px;
+    position: relative;
+  }
+  
+  .message.assistant {
+    align-self: flex-start;
+    background-color: #e9ecef;
+    border-bottom-left-radius: 4px;
+  }
+  
+  .message.user {
+    align-self: flex-end;
+    background-color: #007bff;
+    color: white;
+    border-bottom-right-radius: 4px;
+  }
+  
+  .message.system {
+    align-self: center;
+    background-color: #f8f9fa;
+    font-size: 0.8rem;
+    color: #6c757d;
+    padding: 6px 12px;
+    border-radius: 16px;
+  }
+  
+  .message-timestamp {
+    font-size: 0.7rem;
+    position: absolute;
+    bottom: -18px;
+    color: #adb5bd;
+    right: 8px;
+  }
+  
+  .listening-indicator, .speaking-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  
+  .pulse {
+    width: 20px;
+    height: 20px;
+    background-color: #dc3545;
+    border-radius: 50%;
+    margin-bottom: 8px;
+    animation: pulse 1.5s infinite ease-in-out;
+  }
+  
+  .wave {
+    width: 40px;
+    height: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .wave:before, .wave:after {
+    content: "";
+    width: 4px;
+    height: 16px;
+    background-color: #28a745;
+    animation: wave 0.5s infinite alternate;
+  }
+  
+  .wave:after {
+    animation-delay: 0.25s;
+  }
+  
+  .listening-indicator p, .speaking-indicator p {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin: 0;
+  }
+  
+  .voice-bot-controls {
+    padding: 16px;
+    background-color: white;
+    border-top: 1px solid #eaecef;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .start-session-btn {
+    padding: 10px 24px;
+    border: none;
+    border-radius: 24px;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .start-session-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .active-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+  }
+  
+  .control-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid #dee2e6;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .control-btn svg {
+    width: 24px;
+    height: 24px;
+    color: #495057;
+  }
+  
+  .control-btn.active {
+    background-color: #e9ecef;
+  }
+  
+  .control-btn.microphone.active {
+    border-color: #dc3545;
+  }
+  
+  .control-btn.microphone.active svg {
+    color: #dc3545;
+  }
+  
+  .control-btn.speaker.active {
+    border-color: #28a745;
+  }
+  
+  .control-btn.speaker.active svg {
+    color: #28a745;
+  }
+  
+  .end-session-btn {
+    padding: 8px 16px;
+    border: 1px solid #dc3545;
+    background-color: white;
+    color: #dc3545;
+    border-radius: 24px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .end-session-btn:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Animations */
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+  }
+  
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+  }
+  
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+  }
+}
+
+@keyframes wave {
+  from {
+    height: 4px;
+  }
+  
+  to {
+    height: 16px;
+  }
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 576px) {
+  .bot-avatar {
+    font-size: 2rem;
+    height: 50px;
+    width: 50px;
+  }
+  
+  .bot-info h2 {
+    font-size: 1.1rem;
+  }
+  
+  .bot-info p {
+    font-size: 0.8rem;
+  }
+  
+  .message {
+    max-width: 90%;
+  }
+  
+  .control-btn {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .control-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .end-session-btn {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+}

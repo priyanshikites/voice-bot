@@ -1,0 +1,109 @@
+URL: https://www.ikites.ai/post/evolutionary-learning-mimics-human-perception
+
+TEXT:
+Evolutionary Learning Mimics Human Perception
+top of page
+Evolutionary Learning Mimics Human Perception
+Aditi Kapoor
+Apr 1, 2024
+5 min read
+Updated:
+Apr 2, 2024
+It is well understood that not all visual stimuli hold equal significance in our perception.
+Saliency
+encompasses anything that captures our attention. In computer vision,
+saliency detection
+endeavors to replicate the intricate mechanisms of human visual perception by discerning and highlighting the most conspicuous elements within images or videos.
+Typically, our visual system selectively prioritizes features/objects based on various factors such as contrast, color, texture, and context. Saliency detection algorithms strive to emulate this inherent bias, enabling machines to focus on the most relevant aspects of visual input, akin to human observers.
+This is illustrated in the figure above [1].
+Row 1 - All images:  The salient object includes a face and some peripheral information.
+
+This is illustrated in the figure above [1].
+Row 1 - All images:  The salient object includes a face and some peripheral information.
+Row 2 - In Image (a) and Image (b), one can select the most salient out of multiple objects, but in Image (c) and Image (d), multiple objects contribute equally towards saliency.
+Row 3 - Saliency in Image (a) is the texture variation in the foreground, for Image (b) it is the intensity variation, and for Image (c) and Image (d), it is the presence of multiple colors in the foreground.
+Salient regions often exhibit distinct features that contrast with their surroundings, thus drawing the attention of observers, and governing how they interpret and interact further with it. Essentially, by identifying and prioritizing salient regions, humans can efficiently allocate their cognitive resources and make quick decisions. The concept is fundamental in various fields beyond computer vision too, especially psychology and neuroscience.'
+
+Automated Salient Region Detectors (SRDs) has a variety of applications such as annotation of images, automatic image cropping, faster browsing of image catalogs, image compression (including perception-based methods), automated summarization of visual archives, and developing context-aware retargeting applications. SRD is quite effective in preserving saliency during color quantization and stylization, as well as in maintaining important visual information during image compression.
+Traditional Approaches
+One of the early references of SRDs can be traced back to [2] where saliency is measured in terms of a
+visual attention system
+, inspired by the behavior and the neuronal architecture of the early primate visual system. Here different feature maps such as color, intensity, and orientation maps are combined in a bottom-up manner. The center-surround approach is used to differentiate between finer and coarser details.
+In this blog, our focus is on an
+Evolutionary Learning
+
+In this blog, our focus is on an
+Evolutionary Learning
+method for saliency detection where fuzzy features are selected and learnt using a
+genetic algorithm.
+Genetic algorithm-based learning, or Genetic Algorithms (GAs), is a part of a genre called Evolutionary Learning. It is a type of ML approach that is based on the principles of natural selection and genetics. It is often used to find approximate solutions to optimization and search problems where the search space is wide or complex. Be it engineering or design, finance or robotics, medicine or bioinformatics - GAs have a wide range of applications.
+A Novel Approach
+In [1], my research team utilized
+fuzzy features
+such as color, color spread, color proximity, relative intensity, region size & position, region shape, and texture to identify salient regions and leverage genetic algorithm-based learning to generate the most likely valid fuzzy rules.
+
+Soft computing techniques serve as powerful tools for emulating human-like intelligence in computational systems. Among these techniques, fuzzy logic stands out for its ability to handle uncertainty and imprecision by enabling a nuanced representation of data in linguistic terms rather than relying on rigid binary thresholds. This approach allows for the expression of gradual degrees of truth, effectively capturing the inherent variability present in real-world features and phenomena. By accommodating this variability, fuzzy logic enables more flexible and robust decision-making processes, making it particularly well-suited for applications where traditional binary logic falls short.
+Fuzzy logic
+
+Fuzzy logic
+plays a crucial role in overcoming the challenges posed by uncertainty and vagueness in saliency detection. By employing fuzzy logic, we describe the set of variables in terms of linguistic terms such as "high," "medium," and "low," rather than strict numerical values. This allows the development of systems capable of navigating complex and dynamic environments with human-like adaptability and reasoning, instead of hard thresholds.
+This is how the end-to-end algorithm works:
+Ground Truth
+: For each ground truth image, a bounding box marks out the salient region. Based on this, background colors and salient color analysis is carried out. Each image may have multiple foreground and background colors.
+Fuzzy Rule
+
+Fuzzy Rule
+s: Using this ground truth analysis, a set of fuzzy rules are automatically extracted based on different fuzzy features such as spread foreground color and background color, area of particular background color under consideration, size of the connected component, luminance variations color distance between foreground and background color under consideration, etc.
+Genetic Algorithm
+: Each of these rules is called a
+chromosome
+and each feature is represented in terms of one or more
+genes
+. A
+fitness function
+is created for saliency evaluation and it aids in the selection of the most effective chromosomes for a particular dataset.
+These rules may evolve using techniques such as crossover and mutation, and can then be applied to a new image that needs to be interpreted.
+Key Outcomes
+
+These rules may evolve using techniques such as crossover and mutation, and can then be applied to a new image that needs to be interpreted.
+Key Outcomes
+GAs are proven to be great at analyzing the feature space to find solutions that are globally or nearly optimal and are not affected much by noise. What’s more, GAs can converge reasonably fast with parallelization when handling huge data sets or images.
+Our approach [1] shows great promise in image processing and computer vision tasks. Evaluated on multiple datasets, including the MSRA, Berkley-300, and ECSSD databases, the results are compared with other state-of-the-art methods in terms of precision, recall, and F-measure and it is seen that the method outperforms most, demonstrating its effectiveness.
+GAs are computationally costly, especially when processing high-resolution images or navigating complex feature spaces. GAs may also converge to a suboptimal solution before reaching the global optimum.
+Evolving Trends
+
+Evolving Trends
+Deep Learning and vast volumes of annotated data are fueling remarkable advancements in the domain of saliency detection. Visual and gaze tracking data modeled using Deep Learning is being used to develop a new breed of saliency models known as
+Deep Visual Saliency Models
+. These exhibit substantially higher accuracy compared to traditional approaches. However, due to the inherent complexity of visual perception, and despite extensive research and several breakthroughs, learning models are yet to achieve human-level accuracy [5].
+References
+1.
+An evolutionary learning based fuzzy theoretic approach for salient object detection
+, A Kapoor, KK Biswas, M Hanmandlu, The Visual Computer 33 (5), 665-685
+2.  Itti, L., Koch, C., Niebur, E.: A model of saliency-based visual attention for rapid scene analysis? In: IEEE TPAMI (1998)
+3.
+Contextual Hypergraph Modeling for Salient Object Detection
+
+2.  Itti, L., Koch, C., Niebur, E.: A model of saliency-based visual attention for rapid scene analysis? In: IEEE TPAMI (1998)
+3.
+Contextual Hypergraph Modeling for Salient Object Detection
+, Xi Li, Yao Li, Chunhua Shen, A. Dick, A. Hengel, IEEE International Conference, (2013)
+4. Salient region detection and segmentation, Achanta, R., Estrada, F.J., Wils, P., Susstrunk, S., ICVS, pp. 66–75 (2008)
+5.
+Saliency Prediction in the Deep Learning Era: Successes, Limitations, and Future Challenges
+,
+Ali B., IEEE Transactions on Pattern Analysis and Machine Intelligence.
+Tech Innovations
+68 views
+4 likes. Post not marked as liked
+4
+Recent Posts
+See All
+The Affective Computing Paradigm
+20
+Post not marked as liked
+Enhancing Surgical Assistance with Computer Vision Technologies
+32
+Post not marked as liked
+bottom of page
+
