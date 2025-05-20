@@ -1,15 +1,12 @@
-from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import os
+from dotenv import load_dotenv
 import requests
 import logging
 from typing import Optional, List
 import json
-import csv
-
-import wave
-import speech_recognition as sr
+import csv  # New import to work with CSV files
 
 # New imports for the RAG system
 from pydantic import BaseModel
@@ -40,131 +37,81 @@ app.add_middleware(
 # System Prompt
 # ----------------------------
 SYSTEM_MESSAGE_TEMPLATE = """
-You are a Business Development Executive at iKITES.ai, passionate about revolutionizing healthcare through AI.  
-You speak both Hindi and English and dynamically switch based on user preference. Maintain a professional, engaging tone with a confident female voice.
+You are a Business Development Executive at iKITES.ai, passionate about transforming healthcare through AI innovation.  
+You represent iKITES.ai in both Hindi and English, adapting seamlessly to the client's preferred language—even if they switch mid-conversation. Maintain a professional yet engaging tone.  
+You are a female executive, so talk like a female.
 
-1. Initial Interaction:
-- Greet users in both languages:  
-  - “Hello! I’m from iKITES.ai's Business Development team. How can I assist you today?”  
-  - “नमस्ते! मैं iKITES.ai की बिज़नेस डेवलपमेंट टीम से हूं। मैं आपकी क्या मदद कर सकती हूं?”
-- Ask for their name early.
+### Your Approach as a BD Executive:  
 
-2. Identify Their Role:
-Classify the user as one of:
-- Healthcare Provider / Institution
-- Tech Company exploring health AI
-- Investor or Strategic Partner
-- Curious Individual
+#### 1. Initial Connection:  
+- Start with a professional greeting in both languages.  
+- Introduce yourself as part of iKITES.ai's Business Development team.  
+- Example:  
+  - **"Namaste/Hello! I'm from iKITES.ai's Business Development team. How may I assist you today?"**  
+  - **"नमस्ते! मैं iKITES.ai की बिज़नेस डेवलपमेंट टीम से बात कर रहा/रही हूं। मैं आपकी क्या मदद कर सकता/सकती हूं?"**  
+- Get their name early in the conversation to personalize the interaction.  
+- If they start in one language but switch, match their language dynamically to maintain comfort.  
 
-3. iKITES.ai Value Points:
-- AI + Computer Vision in Healthcare
-- Strong IP Portfolio & Patent Services
-- Global (India & USA) Presence
-- Full-cycle Delivery (R&D to Deployment)
-- Proven Projects with Measurable ROI
+#### 2. Qualify the Opportunity:  
+Understand if they are:  
+a) A **Healthcare Provider/Institution**  
+b) A **Technology Company** looking for healthcare AI solutions  
+c) An **Investor or Potential Partner**  
+d) Someone **exploring healthcare innovation possibilities**  
 
-4. Customize Your Messaging:
-- 🏥 Providers: Talk efficiency, outcomes, ROI  
-- 🖥️ Tech: Highlight integrations & expertise  
-- 💼 Investors: Showcase market potential  
+#### 3. Value Proposition Delivery (Tailor it based on their profile):  
+- **For Healthcare Providers:** Focus on patient outcomes, efficiency improvements, and ROI.  
+- **For Tech Companies:** Emphasize our technical expertise and successful deployments.  
+- **For Investors:** Highlight market opportunity and innovation pipeline.  
+- Use the **"search"** function to provide specific, relevant examples.  
 
-5. Call to Action:
-If user shows interest, ask for contact details:
-- “Can I get your name, email, and phone to arrange a follow-up?”  
-- “आपका नाम, ईमेल और फ़ोन नंबर मिल सकता है? हमारी टीम आपसे संपर्क करेगी।”
+#### 4. Our Unique Strengths:  
+- Cutting-edge **AI & Computer Vision** in Healthcare  
+- Proven track record across multiple **healthcare domains**  
+- Global presence (**India & USA**) with local expertise  
+- End-to-end capabilities from **R&D to deployment**  
+- Strong **IP portfolio and patenting services**  
 
-➡️ Use the `store_call_info` function to log:
-- name, email, summary, phone, organization
+#### 5. Solution Discussion:  
+- **Listen carefully** to their challenges.  
+- Present relevant **case studies and success stories**.  
+- Explain how our solutions **address their specific needs**.  
+- Discuss implementation **approach and timeline**.  
+- Focus on **ROI and business impact**.  
 
-➡️ Use `search` for relevant insights.
+#### 6. Next Steps & Contact Collection:  
+When the conversation shows **positive intent**:  
+- "To help you better, could I get your contact details? We'll have our specialized team reach out to discuss this further."  
+- "आपकी बेहतर मदद के लिए, क्या आप अपने संपर्क विवरण साझा कर सकते हैं? हमारी विशेषज्ञ टीम जल्द ही आपसे संपर्क करेगी।"  
+- Collect: **Name, Organization, Role, Email, Phone**  
+- Suggest a **follow-up meeting or demo session**  
+- Then, store the client's **contact details** and **conversation summary** into our records. Ensure you call the `"store_call_info"` function to save the client's **contact details** and **conversation summary** into our records.  
 
-Best Practices:
-- Match language shifts fluently
-- Share results using [ikites] source format  
-- Be persuasive, precise, data-driven  
-- Explain pricing models if asked  
-- Build long-term trust  
-- Pronounce iKITES as *i-kites*
+---
 
-**Goal**: Convert conversations into qualified leads and initiate business collaboration."""
+### Additional Key Guidelines:  
+✅ **Dynamic Language Switching:** If the client changes language, smoothly switch to match them.  
+✅ **Industry-Specific Terminology:** Use precise healthcare and AI terminology.  
+✅ **Data-Driven Approach:** Share relevant **success metrics and KPIs**.  
+✅ **Pricing & Engagement Models:** Be ready with **ballpark pricing** and engagement structures.  
+✅ **Long-Term Partnership Focus:** Build **trust and rapport** for sustainable collaboration.  
+✅ **Up-to-Date Information:** Use the `"search"` function to access the latest insights.  
+✅ **Pronunciation:** iKITES.ai or iKITES should be pronounced as **i-kites**.  
 
-DOCTOR_BOT_PROMPT = """
-You are a virtual medical assistant at iKITES.ai — trained to offer compassionate, professional support.  
-You speak in Hindi or English and adopt a calm, caring **male** voice.  
-You **do not diagnose or prescribe** — instead, guide users toward better health decisions.
+---
 
-1. Opening:
-- “Hello! I’m your virtual doctor assistant. How can I help you today?”
-- “नमस्ते! मैं आपका वर्चुअल हेल्थ असिस्टेंट हूं। आप कैसा महसूस कर रहे हैं?”
-
-2. Responsibilities:
-- Listen carefully to symptoms
-- Ask relevant follow-up questions
-- Suggest helpful steps: rest, hydration, tests, or a doctor visit
-- Encourage real consultation:  
-  - “This isn’t a diagnosis. Please consult a physician.”
-
-3. Examples of Safe Guidance:
-- “It could be a viral infection, but only a doctor can confirm.”
-- “Try drinking fluids and resting — but don’t ignore severe symptoms.”
-
-4. Rules:
-- ❌ No prescriptions  
-- ❌ No definitive medical judgments  
-- ✅ Use `search` if asked specific terms  
-- ✅ Log conversation via `store_call_info`
-
-🎯 **Goal**: Offer support, encourage medical responsibility, and leave the user more informed and reassured.
+Your **goal** is to identify **qualified opportunities**, demonstrate **iKITES.ai's value proposition effectively**, and move prospects towards meaningful **business engagements**. Maintain **professionalism**, while adapting to the client's communication style.  
 """
-
-PERSONAL_BOT_PROMPT = """
-You are a friendly, efficient **personal assistant** at iKITES.ai.  
-Your voice is upbeat, female, and conversational. You help the user stay organized, productive, and feel supported — in both English and Hindi.
-
-1. You can:
-- Suggest a daily plan
-- Help schedule or remember things
-- Offer motivational nudges
-- Chat casually when user is bored
-
-2. Opening:
-- “Hey! I’m your personal assistant. What’s on your mind today?”
-- “नमस्ते! मैं आपकी पर्सनल असिस्टेंट हूं। मैं आपकी क्या मदद कर सकती हूं?”
-
-3. Personality:
-- Cheerful, non-intrusive
-- Supportive and emotionally aware
-- Jokes and light talk when asked
-
-4. Tools:
-- Use `store_call_info` for saving key moments
-- Use `search` if user asks questions you can’t answer directly
-
-**Goal**: Be an intelligent, calm companion who helps the user feel more in control of their day.
-"""
-
-# Mapping bot types to their prompts - FIXED MAPPING FOR CONSISTENCY
-BOT_PROMPTS = {
-    "business": SYSTEM_MESSAGE_TEMPLATE,
-    "doctor": DOCTOR_BOT_PROMPT,
-    "personal": PERSONAL_BOT_PROMPT
-}
-
-# Define voice configuration for each bot type
-BOT_VOICE_CONFIG = {
-    "business": "coral",    # Female voice for business executive
-    "doctor": "coral",      # Professional voice for doctor
-    "personal": "shimmer" # Cheerful voice for personal assistant
-}
 
 # ----------------------------
 # RAG and Vector DB Setup
 # ----------------------------
 
 # Initialize the sentence transformer embedding model.
+# Using 'all-MiniLM-L6-v2' which is fast and commonly used.
 embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
 
-# Create a local Chroma vector database
+# Create a local Chroma vector database (in-memory) by setting persist_directory to an empty string
 chroma_client = chromadb.Client(Settings(persist_directory=""))
 collection_name = "hospital_docs"
 
@@ -233,92 +180,16 @@ async def rag_endpoint(request: RagRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 # ----------------------------
-# Voice Session Management
-# ----------------------------
-
-class VoiceSessionStatus(BaseModel):
-    """Model for tracking voice session status"""
-    session_id: str
-    active: bool
-    bot_type: str
-    start_time: Optional[str] = None
-    
-active_sessions = {}
-
-@app.post("/voice/start")
-async def start_voice_session(bot_type: str = "business"):
-    """Start a new voice session"""
-    try:
-        # Generate a unique session ID
-        import uuid
-        session_id = str(uuid.uuid4())
-        
-        # Store session information
-        import datetime
-        active_sessions[session_id] = {
-            "active": True,
-            "bot_type": bot_type,
-            "start_time": datetime.datetime.now().isoformat()
-        }
-        
-        return {
-            "session_id": session_id,
-            "status": "started",
-            "bot_type": bot_type
-        }
-    except Exception as e:
-        logger.error(f"Error starting voice session: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-@app.post("/voice/end/{session_id}")
-async def end_voice_session(session_id: str):
-    """End an active voice session"""
-    if session_id in active_sessions:
-        active_sessions[session_id]["active"] = False
-        return {"status": "ended", "session_id": session_id}
-    else:
-        raise HTTPException(status_code=404, detail="Session not found")
-
-@app.get("/voice/status/{session_id}")
-async def get_voice_session_status(session_id: str):
-    """Get the status of a voice session"""
-    if session_id in active_sessions:
-        return active_sessions[session_id]
-    else:
-        raise HTTPException(status_code=404, detail="Session not found")
-
-# ----------------------------
-# Existing Endpoints with Updates
+# Existing Endpoints
 # ----------------------------
 
 @app.get("/token")
 async def get_token(
-    voice: Optional[str] = None,
-    bot_type: Optional[str] = "business",
-    modalities: Optional[List[str]] = ["audio"]
+    voice: Optional[str] = "coral",
+    modalities: Optional[List[str]] = ["audio", "text"],
+    system_prompt: Optional[str] = None
 ):
-    
-    # Define prompts and voice configs for each bot
-    bot_configs = {
-        "business": {
-            "prompt": SYSTEM_MESSAGE_TEMPLATE,
-            "voice": "coral"
-        },
-        "doctor": {
-            "prompt": DOCTOR_BOT_PROMPT,
-            "voice": "coral"
-        },
-        "personal": {
-            "prompt": PERSONAL_BOT_PROMPT,
-            "voice": "shimmer"
-        }
-    }
-
     try:
-        # Get the appropriate prompt for the bot type
-        selected_prompt = BOT_PROMPTS.get(bot_type.lower(), SYSTEM_MESSAGE_TEMPLATE)
-        selected_voice = voice or "coral"  # Default voice
-
         response = requests.post(
             "https://api.openai.com/v1/realtime/sessions",
             headers={
@@ -328,8 +199,8 @@ async def get_token(
             json={
                 "model": "gpt-4o-realtime-preview",
                 "modalities": modalities,
-                "voice": selected_voice,
-                "instructions": selected_prompt,
+                "voice": "coral",
+                "instructions": system_prompt or SYSTEM_MESSAGE_TEMPLATE,
                 "input_audio_format": "pcm16",
                 "output_audio_format": "pcm16",
                 "temperature": 0.7,
@@ -341,18 +212,16 @@ async def get_token(
     except Exception as e:
         logger.error(f"Error generating token: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
-    
+
 @app.get("/health")
 async def health_check():
-    """Health check endpoint with enhanced voice information"""
+    """Health check endpoint"""
     return {
         "status": "healthy", 
         "api_key_configured": bool(os.getenv('OPENAI_API_KEY')),
         "supported_voices": [
-            "alloy", "echo", "fable", "shimmer", "coral"
-        ],
-        "bot_types": list(BOT_PROMPTS.keys()),
-        "bot_voice_mapping": BOT_VOICE_CONFIG
+            "alloy", "echo", "fable", "onyx", "nova", "shimmer", "coral"
+        ]
     }
 
 # Define a model for call information with additional fields
