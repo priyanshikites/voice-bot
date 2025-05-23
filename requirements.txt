@@ -1,8 +1,8 @@
-fastapi
 python-dotenv
+fastapi
 requests
 PyJWT
 SpeechRecognition
-sentence-transformers
-chromadb
+uvicorn
+
 

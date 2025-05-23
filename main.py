@@ -18,9 +18,9 @@ import speech_recognition as sr
 
 # New imports for the RAG system
 from pydantic import BaseModel
-from sentence_transformers import SentenceTransformer
-import chromadb
-from chromadb.config import Settings
+# from sentence_transformers import SentenceTransformer
+# import chromadb
+# from chromadb.config import Settings
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -42,7 +42,7 @@ logger.info("FastAPI application initialized.")
 # CORS configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:8001"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -177,91 +177,91 @@ BOT_VOICE_CONFIG = {
 
 # Initialize the sentence transformer embedding model.
 # Using 'all-MiniLM-L6-v2' which is fast and commonly used.
-embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
+# embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
 
-# Create a local Chroma vector database (in-memory) by setting persist_directory to an empty string
-chroma_client = chromadb.Client(Settings(persist_directory=""))
-collection_name = "hospital_docs"
+# # Create a local Chroma vector database (in-memory) by setting persist_directory to an empty string
+# chroma_client = chromadb.Client(Settings(persist_directory=""))
+# collection_name = "hospital_docs"
 
 
-def initialize_vector_db():
-    """
-    Load the company information from chunks.json,
-    compute embeddings, and add them to the local Chroma collection.
-    """
-    logger.info("Initializing vector database...")
-    try:
-        collection = chroma_client.get_collection(name=collection_name)
-        # Use the collection if already initialized and not empty
-        if len(collection.get()["ids"]) > 0:
-            logger.info("Vector DB already initialized.")
-            return collection
-    except Exception:
-        logger.info("Vector DB collection not found. Creating new collection.")
-        collection = chroma_client.create_collection(name=collection_name)
+# def initialize_vector_db():
+#     """
+#     Load the company information from chunks.json,
+#     compute embeddings, and add them to the local Chroma collection.
+#     """
+#     logger.info("Initializing vector database...")
+#     try:
+#         collection = chroma_client.get_collection(name=collection_name)
+#         # Use the collection if already initialized and not empty
+#         if len(collection.get()["ids"]) > 0:
+#             logger.info("Vector DB already initialized.")
+#             return collection
+#     except Exception:
+#         logger.info("Vector DB collection not found. Creating new collection.")
+#         collection = chroma_client.create_collection(name=collection_name)
 
-    try:
-        with open("chunks.json", "r", encoding="utf-8") as f:
-            chunks_data = json.load(f)
-        logger.info(f"Loaded {len(chunks_data)} chunks from chunks.json.")
-    except Exception as e:
-        logger.error(f"Error reading chunks.json: {e}")
-        chunks_data = []
+#     try:
+#         with open("chunks.json", "r", encoding="utf-8") as f:
+#             chunks_data = json.load(f)
+#         logger.info(f"Loaded {len(chunks_data)} chunks from chunks.json.")
+#     except Exception as e:
+#         logger.error(f"Error reading chunks.json: {e}")
+#         chunks_data = []
 
-    if chunks_data:
-        # Create text chunks by combining title and content
-        chunks = [f"{chunk['title']}\n{chunk['content']}" for chunk in chunks_data]
-        ids = [f"chunk_{i}" for i in range(len(chunks))]
-        # Compute embeddings for each chunk
-        embeddings = embedding_model.encode(chunks).tolist()
-        # Store each chunk as metadata
-        metadatas = [{"text": chunk} for chunk in chunks]
-        collection.add(
-            documents=chunks, metadatas=metadatas, ids=ids, embeddings=embeddings
-        )
-        logger.info(f"Initialized vector DB with {len(chunks)} chunks.")
-    else:
-        logger.error("No data loaded from chunks.json")
-    return collection
+#     if chunks_data:
+#         # Create text chunks by combining title and content
+#         chunks = [f"{chunk['title']}\n{chunk['content']}" for chunk in chunks_data]
+#         ids = [f"chunk_{i}" for i in range(len(chunks))]
+#         # Compute embeddings for each chunk
+#         embeddings = embedding_model.encode(chunks).tolist()
+#         # Store each chunk as metadata
+#         metadatas = [{"text": chunk} for chunk in chunks]
+#         collection.add(
+#             documents=chunks, metadatas=metadatas, ids=ids, embeddings=embeddings
+#         )
+#         logger.info(f"Initialized vector DB with {len(chunks)} chunks.")
+#     else:
+#         logger.error("No data loaded from chunks.json")
+#     return collection
 
 
 # Initialize the vector database on startup.
-vector_collection = initialize_vector_db()
+# vector_collection = initialize_vector_db()
 
 
 # Define request/response models for the RAG endpoint
-class RagRequest(BaseModel):
-    conversation_id: Optional[str] = None
-    query: str
+# class RagRequest(BaseModel):
+#     conversation_id: Optional[str] = None
+#     query: str
 
 
-class RagResponse(BaseModel):
-    context: List[str]
+# class RagResponse(BaseModel):
+#     context: List[str]
 
 
-@app.post("/rag", response_model=RagResponse)
-async def rag_endpoint(request: RagRequest):
-    """
-    Given a query from the user, compute its embedding and retrieve the top
-    three most similar chunks from the local vector DB.
-    """
-    logger.info(f"Received RAG request: {request}")
-    try:
-        # Compute the query embedding using the same model.
-        query_embedding = embedding_model.encode([request.query]).tolist()[0]
-        # Query the vector DB for top 3 matches.
-        logger.info("Query embedding computed.")
-        results = vector_collection.query(
-            query_embeddings=[query_embedding], n_results=3
-        )
-        # Extract the matched documents (chunks)
-        logger.info("Vector DB queried for top 3 matches.")
-        context_docs = results.get("documents", [[]])[0]
-        logger.info(f"RAG response context: {context_docs}")
-        return RagResponse(context=context_docs)
-    except Exception as e:
-        logger.error(f"Error in RAG endpoint: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+# @app.post("/rag", response_model=RagResponse)
+# async def rag_endpoint(request: RagRequest):
+#     """
+#     Given a query from the user, compute its embedding and retrieve the top
+#     three most similar chunks from the local vector DB.
+#     """
+#     logger.info(f"Received RAG request: {request}")
+#     try:
+#         # Compute the query embedding using the same model.
+#         query_embedding = embedding_model.encode([request.query]).tolist()[0]
+#         # Query the vector DB for top 3 matches.
+#         logger.info("Query embedding computed.")
+#         results = vector_collection.query(
+#             query_embeddings=[query_embedding], n_results=3
+#         )
+#         # Extract the matched documents (chunks)
+#         logger.info("Vector DB queried for top 3 matches.")
+#         context_docs = results.get("documents", [[]])[0]
+#         logger.info(f"RAG response context: {context_docs}")
+#         return RagResponse(context=context_docs)
+#     except Exception as e:
+#         logger.error(f"Error in RAG endpoint: {e}")
+#         raise HTTPException(status_code=500, detail=str(e))
 
 
 # ----------------------------
