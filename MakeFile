@@ -11,7 +11,7 @@ PIP          := $(VENV_DIR)/bin/python -m pip
 # Deploy only the React frontend
 deploy-frontend:
 	@echo "→ Building React frontend…"
-	cd $(CLIENT_DIR)&& npm run install --force && npm run build
+	cd $(CLIENT_DIR) && npm install --force && npm run build
 	@echo "→ Installing build to $(TARGET_DIR)…"
 	sudo rm -rf $(TARGET_DIR)
 	sudo mv $(BUILD_DIR) $(TARGET_DIR)
