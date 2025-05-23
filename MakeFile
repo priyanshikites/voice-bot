@@ -1,15 +1,16 @@
 # Variables
-CLIENT_DIR := client
-BUILD_DIR := $(CLIENT_DIR)/dist
-TARGET_DIR := /var/www/voice-bot
-SERVICE := voice-bot.service
-VENV := venv
+CLIENT_DIR   := client
+BUILD_DIR    := $(CLIENT_DIR)/build
+TARGET_DIR   := /var/www/voice-bot
+SERVICE      := voice-bot.service
+VENV_DIR     := /home/ubuntu/global-env
+PIP          := $(VENV_DIR)/bin/python -m pip
 
 .PHONY: deploy-frontend deploy-backend deploy
 
-# Deploy only the React/Vite frontend
+# Deploy only the React frontend
 deploy-frontend:
-	@echo "→ Building frontend…"
+	@echo "→ Building React frontend…"
 	cd $(CLIENT_DIR) && npm ci && npm run build
 	@echo "→ Installing build to $(TARGET_DIR)…"
 	sudo rm -rf $(TARGET_DIR)
@@ -19,13 +20,14 @@ deploy-frontend:
 	@echo "→ Reloading nginx"
 	sudo nginx -t && sudo systemctl reload nginx
 
-# Deploy only the Flask/Gunicorn backend
+# Deploy only the FastAPI/Gunicorn backend
 deploy-backend:
-	@echo "→ Updating backend…"
-	$(VENV)/bin/pip install -r requirements.txt
-	@echo "→ Restarting Gunicorn service"
+	@echo "→ Installing backend dependencies…"
+	$(PIP) install --upgrade pip
+	$(PIP) install -r requirements.txt
+	@echo "→ Restarting FastAPI service"
 	sudo systemctl restart $(SERVICE)
 
 # Deploy both frontend & backend
 deploy: deploy-frontend deploy-backend
-	@echo "✓ All done!"
+	@echo "✓ Frontend and backend deployed!"
