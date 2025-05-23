@@ -1,3 +1,5 @@
 venv
 client/node_modules
 .env
+client/.env
+venv/
