@@ -36,6 +36,7 @@ JWT_SECRET = os.getenv("JWT_SECRET", "your-secret-key")
 JWT_ALGORITHM = "HS256"
 JWT_EXP_DELTA_MINUTES = 60
 
+baseurl="/voice-bot/api"
 app = FastAPI(title="Voice Assistant API")
 logger.info("FastAPI application initialized.")
 
@@ -239,7 +240,7 @@ BOT_VOICE_CONFIG = {
 #     context: List[str]
 
 
-# @app.post("/rag", response_model=RagResponse)
+# @app.post(baseurl+"/rag", response_model=RagResponse)
 # async def rag_endpoint(request: RagRequest):
 #     """
 #     Given a query from the user, compute its embedding and retrieve the top
@@ -281,7 +282,7 @@ class VoiceSessionStatus(BaseModel):
 active_sessions = {}
 
 
-@app.post("/voice/start")
+@app.post(baseurl+"/voice/start")
 async def start_voice_session(bot_type: str = "business"):
     """Start a new voice session"""
     logger.info(f"Starting new voice session for bot_type: {bot_type}")
@@ -307,7 +308,7 @@ async def start_voice_session(bot_type: str = "business"):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post("/voice/end/{session_id}")
+@app.post(baseurl+"/voice/end/{session_id}")
 async def end_voice_session(session_id: str):
     """End an active voice session"""
     logger.info(f"Ending voice session: {session_id}")
@@ -320,7 +321,7 @@ async def end_voice_session(session_id: str):
         raise HTTPException(status_code=404, detail="Session not found")
 
 
-@app.get("/voice/status/{session_id}")
+@app.get(baseurl+"/voice/status/{session_id}")
 async def get_voice_session_status(session_id: str):
     """Get the status of a voice session"""
     logger.info(f"Checking status for voice session: {session_id}")
@@ -353,7 +354,7 @@ def verify_jwt_token(authorization: str = Header(...)):
         raise HTTPException(status_code=401, detail="Invalid or expired token")
 
 
-@app.get("/token")
+@app.get(baseurl+"/token")
 async def get_token(
     voice: Optional[str] = "coral",
     modalities: Optional[List[str]] = ["audio", "text"],
@@ -404,7 +405,7 @@ async def get_token(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/health")
+@app.get(baseurl+"/health")
 async def health_check():
     """Health check endpoint with enhanced voice information"""
     logger.info("Health check endpoint called.")
@@ -433,7 +434,7 @@ class CallInfo(BaseModel):
     organization: Optional[str] = None
 
 
-@app.post("/store_call_info")
+@app.post(baseurl+"/store_call_info")
 async def store_call_info(call_info: CallInfo):
     """
     Endpoint to store call details after a consultation.
@@ -477,7 +478,7 @@ class AuthResponse(BaseModel):
 
 
 # # Add authentication endpoint
-# @app.post("/auth", response_model=AuthResponse)
+# @app.post(baseurl+"/auth", response_model=AuthResponse)
 # async def authenticate(request: AuthRequest):
 #     """
 #     Authenticate user with username and password from environment variables
@@ -509,7 +510,7 @@ class AuthResponse(BaseModel):
 
 
 # Add authentication endpoint
-@app.post("/auth", response_model=AuthResponse)
+@app.post(baseurl+"/auth", response_model=AuthResponse)
 async def authenticate(request: AuthRequest):
     """
     Authenticate user with username and password from environment variables

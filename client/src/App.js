@@ -8,7 +8,7 @@ import { AuthProvider } from "./context/AuthContext";
 const App = () => {
   return (
     <AuthProvider>
-      <Router>
+      <Router basename="/voice-bot">
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route
