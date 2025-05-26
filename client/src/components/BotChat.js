@@ -58,7 +58,7 @@ const VoiceBarsWave = ({ isActive, children }) => {
   return (
     <div className="flex flex-col items-center justify-center w-full">
       <div className="text-center mb-4">
-        <h2 className="text-2xl font-semibold text-[#3b5f83]">
+        <h2 className="text-2xl font-semibold text-[#3b5f83] max-[606px]:text-[1.2rem]">
           Talk to your AI assistant now
         </h2>
       </div>
@@ -726,7 +726,7 @@ export default function BotChat() {
 
       {/* Chat Interface */}
       <div className="flex-1 flex flex-col p-4 overflow-scroll">
-        <div className="flex-1 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-6 mb-4 overflow-hidden flex flex-col min-h-[33rem] max-h-[30rem] w-[40rem] m-auto mt-[7%]">
+        <div className="flex-1 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-6 mb-4 overflow-hidden flex flex-col min-h-[27rem] max-h-[27rem] w-[40rem] m-auto mt-[7%] max-w-[90%]">
           {/* VoiceBarsWave Animation when no messages */}
           {messages.length === 0 && (
             <div className="flex-1 flex items-center justify-center">

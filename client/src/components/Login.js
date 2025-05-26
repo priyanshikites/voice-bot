@@ -87,7 +87,7 @@ const Login = () => {
 
         <div className="text-center mb-6">
           <h1 className="text-2xl font-bold text-gray-900">{t.login}</h1>
-          <p className="text-sm text-gray-600 mt-1">{t.loginToContinue}</p>
+          {/* <p className="text-sm text-gray-600 mt-1">{t.loginToContinue}</p> */}
         </div>
 
         {error && (
@@ -152,7 +152,7 @@ const Login = () => {
             {loading ? t.loginLoading : t.loginBtn}
           </button>
 
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <input
               id="remember-me"
               name="remember-me"
@@ -162,7 +162,7 @@ const Login = () => {
             <label htmlFor="remember-me" className="ml-2 text-sm text-gray-700">
               {t.remember}
             </label>
-          </div>
+          </div>*/}
         </form>
 
         <div className="mt-6">
@@ -228,10 +228,10 @@ const Login = () => {
         </div> */}
 
         <div className="mt-6 text-center text-sm">
-          <span className="text-gray-600">{t.have_not_account}</span>{" "}
+          {/* <span className="text-gray-600">{t.have_not_account}</span>{" "}
           <a href="#" className="text-blue-600 hover:text-blue-500">
             {t.signUp}
-          </a>
+          </a> */}
         </div>
       </div>
     </div>

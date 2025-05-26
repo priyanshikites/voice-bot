@@ -62,11 +62,11 @@ const VoiceVisualizer = ({ isActive }) => {
         className="flex flex-col items-center"
       >
         <div
-          className="w-1 bg-[#3b5f83] rounded-t"
+          className={`w-1 max-[606px]:w-[0.15rem] bg-[#3b5f83] rounded-t`}
           style={{ height: `${height * 2}px` }}
         />
         <div
-          className="w-1 bg-[#3b5f83] rounded-b mt-[-0.1px]"
+          className={`w-1 max-[606px]:w-[0.15rem] bg-[#3b5f83] rounded-b mt-[-0.1px]`}
           style={{ height: `${height * 2}px` }}
         />
       </div>
@@ -74,8 +74,8 @@ const VoiceVisualizer = ({ isActive }) => {
   };
 
   return (
-    <div className="relative flex items-center justify-center h-[300px] px-4 overflow-hidden">
-      <div className="flex items-center gap-1">
+    <div className="relative flex items-center justify-center h-[210px] px-4 overflow-hidden">
+      <div className="flex items-center gap-1 max-[606px]:gap-[0.1rem]">
         {/* Left mirrored bars */}
         {renderBarColumn(bars, true)}
 

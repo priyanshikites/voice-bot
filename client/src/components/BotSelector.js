@@ -97,18 +97,18 @@ export default function BotSelection() {
   };
 
   return (
-    <div className="h-screen w-screen relative flex flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-white to-teal-100">
+    <div className="h-screen w-screen relative flex flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-white to-teal-100 [@media(max-width:752px)]:overflow-auto">
       {/* Gradient Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div className="absolute -top-32 -left-32 w-96 h-96 bg-gradient-to-br from-blue-200 via-teal-100 to-transparent rounded-full blur-3xl opacity-60"></div>
         <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-gradient-to-tr from-pink-200 via-orange-100 to-transparent rounded-full blur-3xl opacity-50"></div>
       </div>
       {/* Logo */}
-      <div className="mb-12 z-10">
+      <div class="z-10 max-[752px]:mt-[20rem] max-[488px]:mt-[40rem]">
         <img src={logo} alt="iKITES Logo" className="h-16 drop-shadow-lg" />
       </div>
       {/* Profile Selection Header */}
-      <h1 className="text-4xl md:text-5xl font-extrabold text-gray-800 mb-12 z-10 text-center drop-shadow-sm">
+      <h1 className="text-[2.5rem] max-[752px]:text-[2rem] max-[488px]:text-[1.5rem] font-extrabold text-gray-800 mb-12 z-10 text-center drop-shadow-sm mt-12 w-[90%]">
         Welcome! Pick your AI partner to get started.
       </h1>
       {/* Bot Selection Grid */}
